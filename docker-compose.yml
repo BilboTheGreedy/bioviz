@@ -36,7 +36,7 @@ services:
       - backend
 
   llm:
-    image: ghcr.io/ollama/ollama:latest # or custom llama.cpp server
+    image: ollama/ollama:latest
     ports:
       - "8080:8080" # API port for LLM server
     volumes:
@@ -44,11 +44,11 @@ services:
       - ollama-models:/root/.ollama
     deploy:
       resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+        limits:
+          cpus: '2'
+          memory: 4G
+    environment:
+      - OLLAMA_HOST=0.0.0.0:8080
 
 volumes:
   ollama-models:
