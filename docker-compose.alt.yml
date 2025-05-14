@@ -4,8 +4,8 @@ version: '3.8'
 # Usage: docker-compose up <service-name>
 
 services:
-  backend:
-    # Keep backend defaults from main docker-compose.yml
+  # Just import backend from main compose file
+  backend: {}
 
   frontend:
     # Use a pre-built static frontend for faster testing
@@ -20,4 +20,4 @@ services:
     # Use official image for faster startup
     image: ollama/ollama:latest
     # Add the health check commands directly
-    command: sh -c "apt-get update && apt-get install -y curl && ollama serve"
+    command: sh -c "apt-get update && apt-get install -y curl || true && ollama serve"

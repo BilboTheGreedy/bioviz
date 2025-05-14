@@ -8,6 +8,9 @@ echo "Starting BioViz Platform..."
 if [ "$1" == "simple" ]; then
     echo "Using simplified Docker setup (no build required)"
     docker-compose -f docker-compose.simple.yml up -d
+elif [ "$1" == "alt" ]; then
+    echo "Using alternative Docker setup (nginx static frontend)"
+    docker-compose -f docker-compose.yml -f docker-compose.alt.yml up -d
 elif [ "$1" == "backend-only" ]; then
     echo "Starting only the backend and LLM services"
     docker-compose up -d backend llm

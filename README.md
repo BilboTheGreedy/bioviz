@@ -21,13 +21,21 @@ There are multiple ways to start the application depending on your needs:
 ./start.sh simple
 ```
 
-### Option 2: Full Build
+### Option 2: Alternative Mode (Static Frontend)
+```bash
+# Start with static frontend (no frontend build needed)
+./start.sh alt
+```
+
+### Option 3: Full Build
 ```bash
 # Start with the full build process
+./start.sh
+# or directly with docker-compose
 docker-compose up -d
 ```
 
-### Option 3: Backend Only
+### Option 4: Backend Only
 ```bash
 # Start only the backend and LLM services
 ./start.sh backend-only
