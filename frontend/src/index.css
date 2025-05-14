@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-900;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+
+  h1 {
+    @apply text-2xl sm:text-3xl;
+  }
+
+  h2 {
+    @apply text-xl sm:text-2xl;
+  }
+
+  h3 {
+    @apply text-lg sm:text-xl;
+  }
+
+  code {
+    @apply font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded;
+  }
+
+  pre {
+    @apply font-mono bg-slate-100 dark:bg-slate-800 p-4 rounded overflow-auto;
+  }
+
+  /* Custom scrollbar for dark mode */
+  :root.dark {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-slate-200 hover:bg-slate-300 text-slate-800 focus:ring-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100 dark:focus:ring-slate-500;
+  }
+
+  .btn-outline {
+    @apply btn border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 focus:ring-slate-300 dark:focus:ring-slate-600;
+  }
+
+  .card {
+    @apply bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden;
+  }
+
+  .input {
+    @apply px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent;
+  }
+
+  /* Prose styling for markdown content */
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    @apply font-semibold mt-6 mb-4;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-4 pl-4;
+  }
+
+  .prose li {
+    @apply mb-1;
+  }
+
+  .prose ul > li {
+    @apply list-disc;
+  }
+
+  .prose ol > li {
+    @apply list-decimal;
+  }
+
+  .prose code {
+    @apply text-sm;
+  }
+
+  .prose pre {
+    @apply my-4;
+  }
+}
+
+/* Utility classes */
+.text-balance {
+  text-wrap: balance;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.grid-center {
+  @apply grid place-items-center;
+}
+
+.absolute-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+/* Plotly customizations */
+.js-plotly-plot .plotly .modebar {
+  @apply !bg-transparent;
+}
+
+.dark .js-plotly-plot .plotly .modebar-btn path {
+  @apply !fill-slate-300;
+}
+
+.dark .js-plotly-plot .plotly .main-svg {
+  @apply !bg-slate-800;
+}
+
+.dark .js-plotly-plot .plotly .bg {
+  @apply !fill-slate-800;
+}
+
+/* CodeMirror customizations */
+.cm-editor {
+  @apply !font-mono text-sm rounded-md overflow-hidden border border-slate-300 dark:border-slate-600;
+}
+
+.dark .cm-editor {
+  @apply !bg-slate-800;
+}

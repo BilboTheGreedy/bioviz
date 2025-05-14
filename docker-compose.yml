@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./data:/data
+      - ./models:/models
+    environment:
+      - LLM_MODEL_PATH=/models/model.gguf
+      - LLM_MODEL_TYPE=llama # or ollama or huggingface
+      - LLM_SERVER_URL=http://llm:8080
+      - MAX_UPLOAD_SIZE=200MB
+      - PYTHONUNBUFFERED=1
+      - ENV=development
+    depends_on:
+      - llm
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  llm:
+    image: ghcr.io/ollama/ollama:latest # or custom llama.cpp server
+    ports:
+      - "8080:8080" # API port for LLM server
+    volumes:
+      - ./models:/models
+      - ollama-models:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  ollama-models:
