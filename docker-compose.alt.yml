@@ -19,5 +19,7 @@ services:
   llm:
     # Use official image for faster startup
     image: ollama/ollama:latest
+    ports:
+      - "8090:8080"
     # Add the health check commands directly
     command: sh -c "apt-get update && apt-get install -y curl || true && ollama serve"

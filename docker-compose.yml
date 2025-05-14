@@ -49,7 +49,7 @@ services:
       context: ./ollama
       dockerfile: Dockerfile
     ports:
-      - "8080:8080" # API port for LLM server
+      - "8090:8080" # API port for LLM server (changed to 8090 to avoid conflicts)
     volumes:
       - ./models:/models
       - ollama-models:/root/.ollama

@@ -55,7 +55,7 @@ The application consists of three main services:
 
 1. **Frontend**: React/TypeScript application with Tailwind CSS (`http://localhost:3000`)
 2. **Backend**: Python/FastAPI server for data processing and analysis (`http://localhost:8000`)
-3. **LLM Service**: Ollama server for natural language processing (`http://localhost:8080`)
+3. **LLM Service**: Ollama server for natural language processing (`http://localhost:8090`)
 
 ## Project Structure
 

@@ -37,7 +37,7 @@ services:
   llm:
     image: ollama/ollama:latest
     ports:
-      - "8080:8080"
+      - "8090:8080"
     volumes:
       - ./models:/models
       - ollama-data:/root/.ollama
