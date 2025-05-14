@@ -42,9 +42,10 @@ app.include_router(export_router.router, prefix="/api/export", tags=["export"])
 async def root():
     return {"message": "BioViz API is running"}
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
-    return {"status": "healthy"}
+    from datetime import datetime
+    return {"status": "healthy", "timestamp": str(datetime.now())}
 
 if __name__ == "__main__":
     import uvicorn

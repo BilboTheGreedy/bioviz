@@ -14,7 +14,7 @@ plotly>=5.14.0
 kaleido>=0.2.1
 python-pptx>=0.6.21
 psutil>=5.9.0
---find-links=https://jllllll.github.io/llama-cpp-python-cuBLAS-wheels/cpu/
+# llama-cpp-python is installed separately in the Dockerfile
 llama-cpp-python==0.3.9
 langchain>=0.0.267
 langchain-community>=0.0.1
@@ -28,3 +28,4 @@ fastparquet>=2023.5.0
 json-schema>=0.0.6
 pytest>=7.0.0
 pytest-asyncio>=0.21.0
+aiohttp>=3.8.0
