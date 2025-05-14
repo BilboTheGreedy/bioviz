@@ -34,7 +34,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.fixed
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules

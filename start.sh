@@ -21,7 +21,7 @@ fi
 
 echo ""
 echo "Services should be available at:"
-echo "- Frontend: http://localhost:3000"
+echo "- Frontend: http://localhost:3001"
 echo "- Backend API: http://localhost:8000"
 echo "- LLM Service: http://localhost:8090"
 echo ""

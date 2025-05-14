@@ -41,7 +41,7 @@ docker-compose up -d
 ./start.sh backend-only
 ```
 
-Then open your browser to `http://localhost:3000`
+Then open your browser to `http://localhost:3001`
 
 ## Requirements
 
@@ -53,7 +53,7 @@ Then open your browser to `http://localhost:3000`
 
 The application consists of three main services:
 
-1. **Frontend**: React/TypeScript application with Tailwind CSS (`http://localhost:3000`)
+1. **Frontend**: React/TypeScript application with Tailwind CSS (`http://localhost:3001`)
 2. **Backend**: Python/FastAPI server for data processing and analysis (`http://localhost:8000`)
 3. **LLM Service**: Ollama server for natural language processing (`http://localhost:8090`)
 
