@@ -27,8 +27,36 @@ class Settings(BaseSettings):
     
     # File upload settings
     upload_dir: str = "/data/uploads"
-    max_upload_size: int = 200 * 1024 * 1024  # 200 MB default
+    max_upload_size: int = int(os.getenv("MAX_UPLOAD_SIZE", 200 * 1024 * 1024))  # Default to 200MB in bytes
     allowed_extensions: List[str] = [".csv", ".xlsx"]
+    
+    @field_validator('max_upload_size', mode='before')
+    @classmethod
+    def parse_max_upload_size(cls, v):
+        if isinstance(v, int):
+            return v
+        if isinstance(v, str):
+            if v.endswith('MB'):
+                try:
+                    return int(v.rstrip('MB')) * 1024 * 1024
+                except ValueError:
+                    pass
+            elif v.endswith('KB'):
+                try:
+                    return int(v.rstrip('KB')) * 1024
+                except ValueError:
+                    pass
+            elif v.endswith('GB'):
+                try:
+                    return int(v.rstrip('GB')) * 1024 * 1024 * 1024
+                except ValueError:
+                    pass
+            # Try to parse as plain integer
+            try:
+                return int(v)
+            except ValueError:
+                pass
+        return 200 * 1024 * 1024  # Default fallback to 200MB in bytes
     
     # LLM settings
     llm: LLMSettings = LLMSettings(

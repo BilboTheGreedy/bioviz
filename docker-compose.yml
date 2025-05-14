@@ -16,7 +16,7 @@ services:
       # Set default to ollama to avoid llama.cpp integration issues
       - LLM_MODEL_TYPE=ollama
       - LLM_SERVER_URL=http://llm:8080
-      - MAX_UPLOAD_SIZE=200MB
+      - MAX_UPLOAD_SIZE=209715200
       - PYTHONUNBUFFERED=1
       - ENV=development
     depends_on:
