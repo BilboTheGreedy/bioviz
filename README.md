@@ -13,13 +13,24 @@ A self-contained web application for interactive visualization, analysis, and na
 
 ## Quick Start
 
-```bash
-# Clone the repository (if using version control)
-# git clone <repository-url>
-# cd bioviz
+There are multiple ways to start the application depending on your needs:
 
-# Start the application with Docker Compose
+### Option 1: Simple Mode (Recommended for first run)
+```bash
+# Start with the simplified Docker configuration (no build needed)
+./start.sh simple
+```
+
+### Option 2: Full Build
+```bash
+# Start with the full build process
 docker-compose up -d
+```
+
+### Option 3: Backend Only
+```bash
+# Start only the backend and LLM services
+./start.sh backend-only
 ```
 
 Then open your browser to `http://localhost:3000`

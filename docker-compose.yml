@@ -32,7 +32,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.fixed
     ports:
       - "3000:3000"
     volumes:

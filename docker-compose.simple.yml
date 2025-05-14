@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Backend API service
+  backend:
+    image: python:3.11-slim
+    volumes:
+      - ./backend:/app
+      - ./data:/data
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    command: >
+      bash -c "
+        pip install -r requirements.txt &&
+        python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+    environment:
+      - LLM_MODEL_TYPE=ollama
+      - LLM_SERVER_URL=http://llm:8080
+      - ENV=development
+    restart: unless-stopped
+
+  # Frontend service (nginx serving static files)
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./frontend-static:/usr/share/nginx/html
+      - ./frontend-static/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # LLM service (ollama)
+  llm:
+    image: ollama/ollama:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ollama-data:
