@@ -39,13 +39,15 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - VITE_API_URL=http://localhost:8000
+      - VITE_API_URL=http://localhost:8000/api
     depends_on:
       - backend
     restart: unless-stopped
 
   llm:
-    image: ollama/ollama:latest
+    build:
+      context: ./ollama
+      dockerfile: Dockerfile
     ports:
       - "8080:8080" # API port for LLM server
     volumes:
@@ -60,7 +62,7 @@ services:
       - OLLAMA_HOST=0.0.0.0:8080
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      test: ["CMD", "curl", "-f", "--retry", "3", "http://localhost:8080"]
       interval: 30s
       timeout: 10s
       retries: 3

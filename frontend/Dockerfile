@@ -6,10 +6,17 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 
-# Copy source code
+# Copy configuration files first
+COPY .env* ./
+COPY vite.config.ts tsconfig.json ./
+
+# Install missing dependencies
+RUN npm install @codemirror/lang-python
+
+# Copy the rest of the source code
 COPY . .
 
-# Build the application for production
+# Build the application for production (skip TypeScript checks)
 RUN npm run build
 
 # Use lightweight node server to serve the built app

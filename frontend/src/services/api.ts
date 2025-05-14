@@ -13,9 +13,14 @@ import {
   SlideRequest
 } from '../types'
 
+// Define API URL from environment or default to '/api'
+const API_URL = typeof import.meta.env !== 'undefined' && import.meta.env.VITE_API_URL 
+  ? import.meta.env.VITE_API_URL 
+  : '/api';
+
 // Create axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
