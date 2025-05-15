@@ -30,12 +30,16 @@ services:
       start_period: 40s
 
   frontend:
-    image: nginx:alpine
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     volumes:
-      - ./frontend-static:/usr/share/nginx/html
-      - ./frontend-static/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend:/app
+      - /app/node_modules
     ports:
-      - "3001:80"
+      - "53291:53291"
+    environment:
+      - VITE_API_URL=http://localhost:8000
     depends_on:
       - backend
     restart: unless-stopped
