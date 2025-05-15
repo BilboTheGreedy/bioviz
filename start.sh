@@ -21,11 +21,7 @@ fi
 
 echo ""
 echo "Services should be available at:"
-if [ "$1" == "alt" ] || [ "$1" == "simple" ]; then
-    echo "- Frontend: http://localhost:3001"
-else
-    echo "- Frontend: http://localhost:53291"
-fi
+echo "- Frontend: http://localhost:3001"
 echo "- Backend API: http://localhost:8000"
 echo "- LLM Service: http://localhost:8090"
 echo ""
