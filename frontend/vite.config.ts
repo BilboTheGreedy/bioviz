@@ -8,11 +8,15 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 53291,
+    strictPort: true,
     proxy: {
       '/api': {
         target: process.env.VITE_API_URL || 'http://localhost:8000',
         changeOrigin: true,
       },
+    },
+    watch: {
+      usePolling: true,
     },
   },
   resolve: {

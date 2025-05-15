@@ -32,10 +32,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      dockerfile: Dockerfile.simple
     ports:
       - "3001:53291"
     environment:
