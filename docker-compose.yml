@@ -41,9 +41,7 @@ services:
     restart: unless-stopped
 
   llm:
-    build:
-      context: ./ollama
-      dockerfile: Dockerfile
+    image: ollama/ollama:latest
     ports:
       - "8090:8080" # API port for LLM server (changed to 8090 to avoid conflicts)
     volumes:

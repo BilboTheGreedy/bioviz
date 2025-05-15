@@ -4,13 +4,54 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Bio-Viz-LLM is a React application for visualizing and analyzing biological datasets with LLM capabilities. The frontend is built with React 18, TypeScript, and Vite, using shadcn/ui components (Radix UI + Tailwind CSS). It communicates with a FastAPI backend.
+Bio-Viz-LLM is a full-stack application for visualizing and analyzing biological datasets with LLM capabilities:
+
+- **Frontend**: React 18 + TypeScript + Vite application using shadcn/ui components
+- **Backend**: FastAPI Python application providing RESTful API endpoints
+- **LLM Service**: Local LLM integration via Ollama for AI-powered data insights
+
+The application architecture follows a microservices pattern with Docker containerization.
+
+## System Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Frontend  │     │   Backend   │     │  LLM Server │
+│  (Port 3001)│────▶│  (Port 8000)│────▶│ (Port 8090) │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   │
+       │                   │                   │
+       ▼                   ▼                   ▼
+┌─────────────────────────────────────────────────┐
+│                 Shared Volumes                  │
+│      (data/, models/, persistent storage)       │
+└─────────────────────────────────────────────────┘
+```
 
 ## Common Commands
 
-### Development
+### Starting the Application
 
 ```bash
+# Start the full application stack with Docker
+./start.sh
+
+# Start with simplified setup (no build required)
+./start.sh simple
+
+# Start with alternative setup (nginx static frontend)
+./start.sh alt
+
+# Start only backend and LLM services
+./start.sh backend-only
+```
+
+### Frontend Development
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
 # Enable corepack for consistent pnpm version
 corepack enable
 
@@ -20,49 +61,31 @@ pnpm install
 # Start development server on dedicated port 53291
 pnpm dev:unique
 
-# Start development server with auto-assigned port
-pnpm dev
-
-# Type checking
+# Type checking and linting
 pnpm typecheck
-
-# Lint
 pnpm lint
-```
 
-### Testing
-
-```bash
-# Run all tests
+# Testing
 pnpm test
-
-# Run tests in watch mode
-pnpm test:watch
-
-# Run tests with coverage
-pnpm test:coverage
 ```
 
-### Building
+### API Testing
 
 ```bash
-# Build for production
-pnpm build
-
-# Preview production build
-pnpm preview
+# Test API endpoints
+./test-api.sh
 ```
 
-## Architecture
+## Frontend Architecture
 
-The project follows a feature-based architecture:
+The frontend follows a feature-based architecture:
 
 ### Core Architecture Patterns
 
-1. **Feature-based organization**: Code is organized by domain/feature rather than by technical concern
-2. **Global state management**: Zustand + Immer for simple, immutable state updates
+1. **Feature-based organization**: Code organized by domain rather than by technical concern
+2. **Global state management**: Zustand + Immer for immutable state updates
 3. **Data fetching**: React Query for caching and async state management
-4. **UI components**: shadcn/ui (Radix UI + Tailwind CSS) for accessible, customizable components
+4. **UI components**: shadcn/ui (Radix UI + Tailwind CSS) for accessible components
 5. **Routing**: React Router v6 with lazy-loaded components
 
 ### Directory Structure
@@ -75,53 +98,59 @@ frontend/
 │   │   ├── chat/           # LLM chat interface
 │   │   ├── datasets/       # File upload and dataset management
 │   │   └── visualization/  # Chart and table components
-│   ├── shared/             # Shared utilities and components
+│   ├── shared/             # Shared code
 │   │   ├── api/            # API client and type definitions
 │   │   ├── components/     # Core UI components (shadcn/ui)
 │   │   ├── hooks/          # Custom React hooks
 │   │   ├── lib/            # Utility functions
-│   │   └── store/          # Zustand state stores
-│   ├── App.tsx             # Main application component
+│   │   ├── store/          # Zustand stores
+│   │   └── types/          # Shared type definitions
+│   ├── styles/             # Global styles
+│   ├── routes.tsx          # React Router routes
 │   └── main.tsx            # Entry point
 ```
 
-### Key Modules
+## Backend Architecture
 
-1. **File Management**: Upload and manage datasets (features/datasets)
-2. **Analysis**: Select and run analysis methods (features/analysis)
-3. **Visualization**: Interactive charts and tables (features/visualization)
-4. **Chat**: LLM interface for data insights (features/chat)
+The FastAPI backend provides RESTful API endpoints for:
 
-### State Management
+### Key APIs
 
-The application uses Zustand stores with Immer for immutable updates:
+1. **File Management** (`/api/files`): Upload, list, and manage datasets
+2. **Analysis** (`/api/analysis`): Run various analysis methods on datasets
+3. **LLM Integration** (`/api/llm`): Query large language models for insights
+4. **Export** (`/api/export`): Export analysis results in various formats
 
-- **fileStore**: Manages uploaded files and datasets
-- **analysisStore**: Handles analysis methods and results
-- **chatStore**: Manages chat sessions and messages
-- **uiStore**: Controls UI state like theme, sidebar, and active page
+The backend uses Python 3.9+ with scientific computing libraries:
+- `pandas`, `numpy`, `scikit-learn` for data analysis
+- `plotly` for chart generation
+- `langchain` for LLM integration
 
-### API Integration
+## Environment Variables
 
-- Uses Axios for API requests
-- React Query for data fetching, caching, and synchronization
-- API endpoints are organized by domain (files, analysis, llm)
+```
+# Frontend
+VITE_API_URL=http://localhost:8000  # Backend API URL
 
-### Error Handling
+# Backend
+LLM_MODEL_PATH=/models/model.gguf   # Path to LLM model
+LLM_MODEL_TYPE=ollama               # LLM integration type
+LLM_SERVER_URL=http://llm:8080      # LLM server URL
+MAX_UPLOAD_SIZE=209715200           # Max file upload size (bytes)
+```
 
-- React Error Boundary for component-level error handling
-- Global error state in stores
-- Toast notifications for user feedback
+## Docker Setup
 
-### Styling
-
-- Tailwind CSS for utility-first styling
-- CSS variables for theming (light/dark mode)
-- Responsive design with mobile-first approach
+The application uses Docker Compose with three main services:
+1. **frontend**: Static files served via Nginx on port 3001
+2. **backend**: FastAPI service on port 8000
+3. **llm**: Ollama LLM server on port 8090
 
 ## Important Notes
 
-1. The application MUST use port 53291 for development to avoid port conflicts
+1. The frontend dev server MUST use port 53291 for development to avoid conflicts
 2. Use pnpm with corepack to ensure consistent package management
-3. All file paths must be absolute (use @ imports with the configured alias)
+3. All frontend file paths should use absolute imports (via `@/` alias)
 4. Tests should use React Testing Library's best practices
+5. The backend API expects uploads in `/data` directory
+6. LLM models should be placed in the `/models` directory
