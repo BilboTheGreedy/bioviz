@@ -32,11 +32,9 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.simple
+      dockerfile: Dockerfile.production
     ports:
-      - "3001:53291"
-    environment:
-      - VITE_API_URL=http://localhost:8000
+      - "3001:80"
     depends_on:
       - backend
     restart: unless-stopped

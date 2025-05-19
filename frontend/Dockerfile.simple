@@ -6,10 +6,10 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@8.15.4 --activate
 
 # Copy package files first for better caching
-COPY package.json .npmrc* ./
+COPY package.json pnpm-lock.yaml* .npmrc* ./
 
-# Install dependencies without peer dependency issues
-RUN pnpm install --no-frozen-lockfile
+# Install all dependencies including dev dependencies
+RUN pnpm install --frozen-lockfile || pnpm install
 
 # Copy application code
 COPY . .
@@ -18,8 +18,8 @@ COPY . .
 EXPOSE 53291
 
 # Set environment variables
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 ENV VITE_API_URL=http://localhost:8000
 
-# Start development server
-CMD ["npm", "run", "dev:unique"]
+# Start development server using pnpm
+CMD ["pnpm", "run", "dev:unique"]
